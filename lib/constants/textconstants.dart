@@ -8,4 +8,7 @@ class TextConstants {
   static String userID = "User ID";
   static String number_0 = '0';
   static String number_9 = '9';
+  static String reverseAlphabetically = 'Z - A';
+  static String ascendingNumbers = '0 - 9';
+  static String descendingNumbers = '9 - 0';
 }

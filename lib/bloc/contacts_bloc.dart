@@ -12,11 +12,18 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(ContactsLoading());
       try {
         final watchlist = await ContactsRepository().getUsers();
-        print(watchlist);
         final watchlistGroups = _splitContactsIntoSublist(watchlist, 30);
         emit(ContactsLoaded(watchlistGroups));
       } catch (e) {
         emit(ContactsError('Something Went Wrong!!'));
+      }
+    });
+
+    on<SortContacts>((event, emit) {
+      if (state is ContactsLoaded) {
+        final currentState = state as ContactsLoaded;
+        final sortedUsers = _sortContacts(currentState.users, event.ascending);
+        emit(ContactsLoaded(sortedUsers));
       }
     });
   }
@@ -31,5 +38,19 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       sublistFinal.add(sublist);
     }
     return sublistFinal;
+  }
+
+  List<List<ContactModel>> _sortContacts(
+      List<List<ContactModel>> contacts, bool ascending) {
+    contacts.forEach((group) {
+      group.sort((a, b) {
+        if (ascending) {
+          return a.id.compareTo(b.id);
+        } else {
+          return b.id.compareTo(a.id);
+        }
+      });
+    });
+    return contacts;
   }
 }

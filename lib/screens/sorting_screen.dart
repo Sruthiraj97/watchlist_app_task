@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wtchlst_api_example/bloc/contacts_bloc.dart';
 import 'package:wtchlst_api_example/constants/textconstants.dart';
 
 class SortingScreen extends StatefulWidget {
-  const SortingScreen({super.key});
+  const SortingScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _SortingScreenState createState() => _SortingScreenState();
 }
 
@@ -16,13 +17,23 @@ class _SortingScreenState extends State<SortingScreen> {
   void toggleAlphabeticalSort() {
     setState(() {
       isAlphabeticalAscending = !isAlphabeticalAscending;
+      isUserIDAscending = false; // Reset user ID sorting
     });
+    _sortContacts();
   }
 
   void toggleUserIDSort() {
     setState(() {
       isUserIDAscending = !isUserIDAscending;
+      isAlphabeticalAscending = false; // Reset alphabetical sorting
     });
+    _sortContacts();
+  }
+
+  void _sortContacts() {
+    BlocProvider.of<ContactsBloc>(context).add(
+      SortContacts(ascending: isUserIDAscending),
+    );
   }
 
   @override
@@ -54,7 +65,6 @@ class _SortingScreenState extends State<SortingScreen> {
                         ),
                       ),
                       const SizedBox(width: 16.0),
-                      // Add spacing between options
                     ],
                   ),
                 ],

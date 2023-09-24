@@ -13,13 +13,13 @@ class Tab1 extends StatefulWidget {
 class _Tab1State extends State<Tab1> {
   @override
   Widget build(BuildContext context) {
-    print(widget.contacts);
     return Container(
       decoration: BoxDecoration(color: Colors.grey.shade300),
       child: ListView.builder(
         padding: const EdgeInsets.all(10),
         itemCount: widget.contacts.length,
         itemBuilder: (context, index) {
+          final contact = widget.contacts[index];
           return Card(
             color: Colors.white,
             elevation: 4,
@@ -33,7 +33,7 @@ class _Tab1State extends State<Tab1> {
                         bottom: 10,
                       ),
                       child: Text(
-                        widget.contacts[index].name?.toUpperCase() ?? 'No Name',
+                        contact.name?.toUpperCase() ?? 'No Name',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -47,7 +47,7 @@ class _Tab1State extends State<Tab1> {
                         ),
                         Expanded(
                           child: Text(
-                            widget.contacts[index].contacts ?? 'No Contacts',
+                            contact.contacts ?? 'No Contacts',
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -55,18 +55,17 @@ class _Tab1State extends State<Tab1> {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                      child: imageBox(
-                        100,
-                        100,
-                        Image.asset('assets/personn.jpg'),
-                      ),
-                    ),
-                  ],
+                Text(
+                  'UserID: ${contact.id}', // Display the ID as UserID
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                // const CircleAvatar(
+                //   radius: 30, // Adjust the radius as needed
+                //   backgroundImage: AssetImage(
+                //       'assets/personn.jpg'), // Replace with your image
+                // ),
               ],
             ),
           );
@@ -74,8 +73,4 @@ class _Tab1State extends State<Tab1> {
       ),
     );
   }
-}
-
-Widget imageBox(double height, double width, Image image) {
-  return SizedBox(height: height, width: width, child: image);
 }
