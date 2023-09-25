@@ -61,11 +61,11 @@ class _Tab1State extends State<Tab1> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // const CircleAvatar(
-                //   radius: 30, // Adjust the radius as needed
-                //   backgroundImage: AssetImage(
-                //       'assets/personn.jpg'), // Replace with your image
-                // ),
+                const CircleAvatar(
+                  radius: 30, // Adjust the radius as needed
+                  backgroundImage: AssetImage(
+                      'assets/personn.jpg'), // Replace with your image
+                ),
               ],
             ),
           );

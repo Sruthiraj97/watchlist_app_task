@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/contact_model.dart';
 import '../repositories/contacts_repo.dart';
+import '../screens/sorting_screen.dart';
 
 part 'contacts_event.dart';
 part 'contacts_state.dart';

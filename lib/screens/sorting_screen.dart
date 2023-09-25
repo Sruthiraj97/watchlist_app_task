@@ -3,6 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wtchlst_api_example/bloc/contacts_bloc.dart';
 import 'package:wtchlst_api_example/constants/textconstants.dart';
 
+enum SortingOption {
+  none,
+  alphabeticalAscending,
+  alphabeticalDescending,
+  numericAscending,
+  numericDescending
+}
+
 class SortingScreen extends StatefulWidget {
   const SortingScreen({Key? key}) : super(key: key);
 
@@ -11,28 +19,44 @@ class SortingScreen extends StatefulWidget {
 }
 
 class _SortingScreenState extends State<SortingScreen> {
-  bool isAlphabeticalAscending = false;
-  bool isUserIDAscending = false;
+  SortingOption selectedSortingOption = SortingOption.none;
 
-  void toggleAlphabeticalSort() {
+  void toggleSortingOption(SortingOption option) {
     setState(() {
-      isAlphabeticalAscending = !isAlphabeticalAscending;
-      isUserIDAscending = false; // Reset user ID sorting
+      if (selectedSortingOption == option) {
+        selectedSortingOption = SortingOption.none;
+      } else {
+        selectedSortingOption = option;
+      }
+      _sortContacts();
     });
-    _sortContacts();
-  }
-
-  void toggleUserIDSort() {
-    setState(() {
-      isUserIDAscending = !isUserIDAscending;
-      isAlphabeticalAscending = false; // Reset alphabetical sorting
-    });
-    _sortContacts();
   }
 
   void _sortContacts() {
+    SortingOption sortingOption = SortingOption.none;
+    bool ascending = true;
+
+    switch (selectedSortingOption) {
+      case SortingOption.alphabeticalAscending:
+        sortingOption = SortingOption.alphabeticalAscending;
+        break;
+      case SortingOption.alphabeticalDescending:
+        sortingOption = SortingOption.alphabeticalDescending;
+        ascending = false;
+        break;
+      case SortingOption.numericAscending:
+        sortingOption = SortingOption.numericAscending;
+        break;
+      case SortingOption.numericDescending:
+        sortingOption = SortingOption.numericDescending;
+        ascending = false;
+        break;
+      default:
+        break;
+    }
+
     BlocProvider.of<ContactsBloc>(context).add(
-      SortContacts(ascending: isUserIDAscending),
+      SortContacts(sortingOption: sortingOption, ascending: ascending),
     );
   }
 
@@ -58,7 +82,7 @@ class _SortingScreenState extends State<SortingScreen> {
                       Text(
                         TextConstants.done,
                         style: TextStyle(
-                          color: isAlphabeticalAscending || isUserIDAscending
+                          color: selectedSortingOption != SortingOption.none
                               ? Colors.blue
                               : Colors.grey,
                           fontWeight: FontWeight.bold,
@@ -78,10 +102,12 @@ class _SortingScreenState extends State<SortingScreen> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          toggleAlphabeticalSort();
+                          toggleSortingOption(
+                              SortingOption.alphabeticalAscending);
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: isAlphabeticalAscending
+                          foregroundColor: selectedSortingOption ==
+                                  SortingOption.alphabeticalAscending
                               ? Colors.blue
                               : Colors.grey,
                         ),
@@ -106,12 +132,14 @@ class _SortingScreenState extends State<SortingScreen> {
                       const SizedBox(width: 16.0),
                       TextButton(
                         onPressed: () {
-                          toggleAlphabeticalSort();
+                          toggleSortingOption(
+                              SortingOption.alphabeticalDescending);
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: isAlphabeticalAscending
-                              ? Colors.grey
-                              : Colors.blue,
+                          foregroundColor: selectedSortingOption ==
+                                  SortingOption.alphabeticalDescending
+                              ? Colors.blue
+                              : Colors.grey,
                         ),
                         child: Row(
                           children: [
@@ -144,11 +172,13 @@ class _SortingScreenState extends State<SortingScreen> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          toggleUserIDSort();
+                          toggleSortingOption(SortingOption.numericAscending);
                         },
                         style: TextButton.styleFrom(
-                          primary:
-                              isUserIDAscending ? Colors.blue : Colors.grey,
+                          primary: selectedSortingOption ==
+                                  SortingOption.numericAscending
+                              ? Colors.blue
+                              : Colors.grey,
                         ),
                         child: Row(
                           children: [
@@ -170,11 +200,13 @@ class _SortingScreenState extends State<SortingScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          toggleUserIDSort();
+                          toggleSortingOption(SortingOption.numericDescending);
                         },
                         style: TextButton.styleFrom(
-                          primary:
-                              isUserIDAscending ? Colors.grey : Colors.blue,
+                          primary: selectedSortingOption ==
+                                  SortingOption.numericDescending
+                              ? Colors.blue
+                              : Colors.grey,
                         ),
                         child: Row(
                           children: [
