@@ -43,39 +43,10 @@ class ContactsScreenState extends State<ContactsScreen> {
                         state.users.expand((list) => list).toList();
                     print(state.users);
 
-                    //   return TabBarView(
-                    //     children: [
-                    //       BlocProvider.value(
-                    //         value: BlocProvider.of<ContactsBloc>(context),
-                    //         child: Tab1(contacts: singleListContacts),
-                    //       ),
-                    //       BlocProvider.value(
-                    //         value: BlocProvider.of<ContactsBloc>(context),
-                    //         child: Tab1(contacts: singleListContacts),
-                    //       ),
-                    //       BlocProvider.value(
-                    //         value: BlocProvider.of<ContactsBloc>(context),
-                    //         child: Tab1(contacts: singleListContacts),
-                    //       ),
-                    //       BlocProvider.value(
-                    //         value: BlocProvider.of<ContactsBloc>(context),
-                    //         child: Tab1(contacts: singleListContacts),
-                    //       ),
-                    //       BlocProvider.value(
-                    //         value: BlocProvider.of<ContactsBloc>(context),
-                    //         child: Tab1(contacts: singleListContacts),
-                    //       ),
-                    //     ],
-                    //   );
-                    // }
-
                     return TabBarView(
                       children: [
                         for (int i = 0; i < 5; i++)
-                          BlocProvider.value(
-                            value: BlocProvider.of<ContactsBloc>(context),
-                            child: Tab1(contacts: singleListContacts),
-                          ),
+                          Tab1(contacts: singleListContacts),
                       ],
                     );
                   }
@@ -102,100 +73,100 @@ class ContactsScreenState extends State<ContactsScreen> {
       },
     );
   }
-}
 
-Widget buildFloatingActionButton(BuildContext context) {
-  return FloatingActionButton(
-    onPressed: () {
-      showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext context) {
-          return Container(
-            height: 300,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-              child: Container(
-                color: Colors.white,
-                child: const Center(
-                  child: SortingScreen(),
+  Widget buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.transparent,
+          builder: (BuildContext context) {
+            return Container(
+              height: 300,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+                child: Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: SortingScreen(),
+                  ),
                 ),
               ),
+            );
+          },
+        );
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      backgroundColor: Colors.white,
+      child: const Icon(
+        Icons.menu_open,
+        color: Colors.blue,
+      ),
+    );
+  }
+
+  PreferredSizeWidget customAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: titleText(),
+      leading: const Padding(
+        padding: EdgeInsets.only(
+          left: 10,
+        ),
+        child: Icon(
+          Icons.arrow_back_ios,
+        ),
+      ),
+      bottom: TabBar(
+        isScrollable: true, // Make the tabs scrollable
+        labelColor: Colors.blue,
+        unselectedLabelColor: Colors.black,
+        tabs: [
+          for (int i = 0; i < 5; i++)
+            Tab(
+              child: tabText(_getTabText(i)), // Use a function to get tab text
             ),
-          );
-        },
-      );
-    },
-    shape: RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.circular(20.0), // Adjust the border radius as needed
-    ),
-    backgroundColor: Colors.white,
-    child: const Icon(
-      Icons.menu_open,
-      color: Colors.blue, // Set the color of the icon to blue
-    ),
-  );
-}
-
-PreferredSizeWidget customAppBar() {
-  return AppBar(
-    backgroundColor: Colors.white,
-    title: titleText(),
-    leading: const Padding(
-      padding: EdgeInsets.only(
-        left: 10,
+        ],
       ),
-      child: Icon(
-        Icons.arrow_back_ios,
+    );
+  }
+
+  Widget titleText() {
+    return Text(
+      TextConstants.watchList,
+      style: const TextStyle(
+        color: Colors.black,
       ),
-    ),
-    bottom: TabBar(
-      labelColor: Colors.blue,
-      unselectedLabelColor: Colors.black,
-      tabs: [
-        for (int i = 0; i < 5; i++)
-          Tab(
-            child: tabText(_getTabText(i)), // Use a function to get tab text
-          ),
-      ],
-    ),
-  );
-}
+    );
+  }
 
-Widget titleText() {
-  return Text(
-    TextConstants.watchList,
-    style: const TextStyle(
-      color: Colors.black,
-    ),
-  );
-}
+  Widget tabText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 14),
+    );
+  }
 
-Widget tabText(String text) {
-  return Text(
-    text,
-    style: const TextStyle(fontSize: 14),
-  );
-}
-
-String _getTabText(int index) {
-  // Customize tab text based on the index
-  switch (index) {
-    case 0:
-      return TextConstants.contactOne;
-    case 1:
-      return TextConstants.contactTwo;
-    case 2:
-      return TextConstants.contactThree;
-    case 3:
-      return TextConstants.contactFour; // Customize this
-    case 4:
-      return TextConstants.contactFive; // Customize this
-    default:
-      return ""; // Default value
+  String _getTabText(int index) {
+    // Customize tab text based on the index
+    switch (index) {
+      case 0:
+        return TextConstants.contactOne;
+      case 1:
+        return TextConstants.contactTwo;
+      case 2:
+        return TextConstants.contactThree;
+      case 3:
+        return TextConstants.contactFour;
+      case 4:
+        return TextConstants.contactFive;
+      default:
+        return "";
+    }
   }
 }
