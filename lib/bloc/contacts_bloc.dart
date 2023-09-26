@@ -23,7 +23,8 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     on<SortContacts>((event, emit) {
       if (state is ContactsLoaded) {
         final currentState = state as ContactsLoaded;
-        final sortedUsers = _sortContacts(currentState.users, event.ascending);
+        final sortedUsers =
+            _sortContacts(currentState.users, event.sortingOption);
         emit(ContactsLoaded(sortedUsers));
       }
     });
@@ -42,16 +43,39 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
   }
 
   List<List<ContactModel>> _sortContacts(
-      List<List<ContactModel>> contacts, bool ascending) {
+      List<List<ContactModel>> contacts, SortingOption sortingOption) {
     contacts.forEach((group) {
       group.sort((a, b) {
-        if (ascending) {
-          return a.id.compareTo(b.id);
-        } else {
-          return b.id.compareTo(a.id);
+        switch (sortingOption) {
+          case SortingOption.alphabeticalAscending:
+            return a.name.compareTo(b.name);
+          case SortingOption.alphabeticalDescending:
+            return b.name.compareTo(a.name);
+          case SortingOption.numericAscending:
+            if (_isNumeric(a.id) && _isNumeric(b.id)) {
+              return int.parse(a.id).compareTo(int.parse(b.id));
+            } else {
+              return a.id.compareTo(b.id);
+            }
+          case SortingOption.numericDescending:
+            if (_isNumeric(a.id) && _isNumeric(b.id)) {
+              return int.parse(b.id).compareTo(int.parse(a.id));
+            } else {
+              return b.id.compareTo(a.id);
+            }
+          default:
+            return 0;
         }
       });
     });
     return contacts;
+  }
+
+  bool _isNumeric(String str) {
+    // ignore: unnecessary_null_comparison
+    if (str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
   }
 }

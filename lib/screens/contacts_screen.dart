@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wtchlst_api_example/bloc/contacts_bloc.dart';
+import 'package:wtchlst_api_example/constants/textconstants.dart';
 import 'package:wtchlst_api_example/models/contact_model.dart';
 import 'package:wtchlst_api_example/screens/sorting_screen.dart';
 import 'package:wtchlst_api_example/widgets/tab1_content.dart';
@@ -17,7 +18,6 @@ class ContactsScreenState extends State<ContactsScreen> {
 
   @override
   void initState() {
-    // call API here
     BlocProvider.of<ContactsBloc>(context).add(FetchContacts());
     super.initState();
   }
@@ -30,50 +30,7 @@ class ContactsScreenState extends State<ContactsScreen> {
           body: DefaultTabController(
             length: 3,
             child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Theme.of(context).colorScheme.onSecondary,
-                title: const Text('WatchList'),
-                leading: const Padding(
-                  padding: EdgeInsets.only(
-                    left: 15,
-                  ),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                  ),
-                ),
-                bottom: const TabBar(
-                  tabs: [
-                    Tab(
-                      child: Text(
-                        'Contacts 1',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        'Contacts 2',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        'Contacts 3',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                  indicator: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color:
-                            Colors.blue, // Color of the underline when selected
-                        width: 3.0, // Thickness of the underline
-                      ),
-                    ),
-                  ),
-                  labelColor: Colors.black,
-                ),
-              ),
+              appBar: customAppBar(),
               body: BlocBuilder<ContactsBloc, ContactsState>(
                 builder: (context, state) {
                   if (state is ContactsLoading) {
@@ -83,7 +40,8 @@ class ContactsScreenState extends State<ContactsScreen> {
                   }
                   if (state is ContactsLoaded) {
                     contacts = state.users;
-                    print(contacts);
+                    print(state.users);
+
                     return TabBarView(
                       children: [
                         BlocProvider.value(
@@ -101,16 +59,17 @@ class ContactsScreenState extends State<ContactsScreen> {
                       ],
                     );
                   }
+
                   if (state is ContactsError) {
                     // retry here
-                    return const Center(
-                      child: Text('Unable to fetch data, Please try again!!'),
+                    return Center(
+                      child: Text(TextConstants.unableToFetch),
                     );
                   }
+
                   return Container(
                     decoration: BoxDecoration(color: Colors.grey.shade300),
-                    child: const Text(
-                        'Something went wrong!!, Please try after a while.'),
+                    child: Text(TextConstants.somethingWentWrong),
                   );
                 },
               ),
@@ -159,5 +118,51 @@ Widget buildFloatingActionButton(BuildContext context) {
       Icons.menu_open,
       color: Colors.blue, // Set the color of the icon to blue
     ),
+  );
+}
+
+PreferredSizeWidget customAppBar() {
+  return AppBar(
+    backgroundColor: Colors.white,
+    title: titleText(),
+    leading: const Padding(
+      padding: EdgeInsets.only(
+        left: 10,
+      ),
+      child: Icon(
+        Icons.arrow_back_ios,
+      ),
+    ),
+    bottom: TabBar(
+      labelColor: Colors.blue,
+      unselectedLabelColor: Colors.black,
+      tabs: [
+        Tab(
+          child: tabText(TextConstants.contactOne),
+        ),
+        Tab(
+          child: tabText(TextConstants.contactTwo),
+        ),
+        Tab(
+          child: tabText(TextConstants.contactThree),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget titleText() {
+  return Text(
+    TextConstants.watchList,
+    style: const TextStyle(
+      color: Colors.black,
+    ),
+  );
+}
+
+Widget tabText(String text) {
+  return Text(
+    text,
+    style: const TextStyle(fontSize: 14),
   );
 }

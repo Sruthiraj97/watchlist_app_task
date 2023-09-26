@@ -11,14 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ContactsBloc(),
-      child: MaterialApp(
-        title: 'Create Watchlist via API call',
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const ContactsScreen(),
+        home: ContactsScreen(),
       ),
     );
   }

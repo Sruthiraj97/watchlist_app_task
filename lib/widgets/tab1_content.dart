@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wtchlst_api_example/constants/textconstants.dart';
 import 'package:wtchlst_api_example/models/contact_model.dart';
 
 class Tab1 extends StatefulWidget {
@@ -33,7 +34,7 @@ class _Tab1State extends State<Tab1> {
                         bottom: 10,
                       ),
                       child: Text(
-                        contact.name?.toUpperCase() ?? 'No Name',
+                        contact.name?.toUpperCase() ?? TextConstants.noName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -47,7 +48,7 @@ class _Tab1State extends State<Tab1> {
                         ),
                         Expanded(
                           child: Text(
-                            contact.contacts ?? 'No Contacts',
+                            contact.contacts ?? TextConstants.nocontacts,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

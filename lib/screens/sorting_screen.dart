@@ -79,13 +79,18 @@ class _SortingScreenState extends State<SortingScreen> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        TextConstants.done,
-                        style: TextStyle(
-                          color: selectedSortingOption != SortingOption.none
-                              ? Colors.blue
-                              : Colors.grey,
-                          fontWeight: FontWeight.bold,
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          TextConstants.done,
+                          style: TextStyle(
+                            color: selectedSortingOption != SortingOption.none
+                                ? Colors.blue
+                                : Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16.0),
