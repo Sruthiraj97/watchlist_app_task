@@ -28,7 +28,7 @@ class ContactsScreenState extends State<ContactsScreen> {
       builder: (context) {
         return Scaffold(
           body: DefaultTabController(
-            length: 3,
+            length: 5,
             child: Scaffold(
               appBar: customAppBar(),
               body: BlocBuilder<ContactsBloc, ContactsState>(
@@ -39,22 +39,31 @@ class ContactsScreenState extends State<ContactsScreen> {
                     );
                   }
                   if (state is ContactsLoaded) {
-                    contacts = state.users;
+                    final singleListContacts =
+                        state.users.expand((list) => list).toList();
                     print(state.users);
 
                     return TabBarView(
                       children: [
                         BlocProvider.value(
                           value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: contacts[0]),
+                          child: Tab1(contacts: singleListContacts),
                         ),
                         BlocProvider.value(
                           value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: contacts[1]),
+                          child: Tab1(contacts: singleListContacts),
                         ),
                         BlocProvider.value(
                           value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: contacts[2]),
+                          child: Tab1(contacts: singleListContacts),
+                        ),
+                        BlocProvider.value(
+                          value: BlocProvider.of<ContactsBloc>(context),
+                          child: Tab1(contacts: singleListContacts),
+                        ),
+                        BlocProvider.value(
+                          value: BlocProvider.of<ContactsBloc>(context),
+                          child: Tab1(contacts: singleListContacts),
                         ),
                       ],
                     );
@@ -142,6 +151,12 @@ PreferredSizeWidget customAppBar() {
         ),
         Tab(
           child: tabText(TextConstants.contactTwo),
+        ),
+        Tab(
+          child: tabText(TextConstants.contactThree),
+        ),
+        Tab(
+          child: tabText(TextConstants.contactThree),
         ),
         Tab(
           child: tabText(TextConstants.contactThree),

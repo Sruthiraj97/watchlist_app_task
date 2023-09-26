@@ -16,6 +16,8 @@ class TextConstants {
   static String contactOne = 'Contact 1';
   static String contactTwo = 'Contact 2';
   static String contactThree = 'Contact 3';
+  static String contactFour = 'Contact 4';
+  static String contactFive = 'Contact 5';
   static String unableToFetch = 'Unable to fetch data, Please try again!!';
   static String somethingWentWrong =
       'Something went wrong!!, Please try after a while.';

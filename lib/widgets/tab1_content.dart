@@ -57,15 +57,14 @@ class _Tab1State extends State<Tab1> {
                   ),
                 ),
                 Text(
-                  'UserID: ${contact.id}', // Display the ID as UserID
+                  'UserID: ${contact.id}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const CircleAvatar(
-                  radius: 30, // Adjust the radius as needed
-                  backgroundImage: AssetImage(
-                      'assets/personn.jpg'), // Replace with your image
+                  radius: 30,
+                  backgroundImage: AssetImage('assets/person.jpg'),
                 ),
               ],
             ),

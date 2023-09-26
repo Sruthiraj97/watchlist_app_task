@@ -12,7 +12,7 @@ class ContactsRepository {
 
     if (response.statusCode == 200) {
       final List<dynamic> result = jsonDecode(response.body);
-      // print(result);
+      print(result);
       return result.map((e) => ContactModel.fromJson(e)).toList();
     } else {
       throw Exception(response.reasonPhrase);

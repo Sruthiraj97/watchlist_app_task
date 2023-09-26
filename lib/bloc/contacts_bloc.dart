@@ -9,12 +9,16 @@ part 'contacts_state.dart';
 
 class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
   ContactsBloc() : super(ContactsLoading()) {
+    List<ContactModel> contacts = [];
     on<FetchContacts>((event, emit) async {
       emit(ContactsLoading());
       try {
         final watchlist = await ContactsRepository().getUsers();
-        final watchlistGroups = _splitContactsIntoSublist(watchlist, 30);
-        emit(ContactsLoaded(watchlistGroups));
+        contacts = watchlist;
+        emit(ContactsLoaded([contacts]));
+
+        // final watchlistGroups = _splitContactsIntoSublist(watchlist, 30);
+        // emit(ContactsLoaded(watchlistGroups));
       } catch (e) {
         emit(ContactsError('Something Went Wrong!!'));
       }
