@@ -52,7 +52,6 @@ class ContactsScreenState extends State<ContactsScreen> {
                   }
 
                   if (state is ContactsError) {
-                    // retry here
                     return Center(
                       child: Text(TextConstants.unableToFetch),
                     );
@@ -123,13 +122,13 @@ class ContactsScreenState extends State<ContactsScreen> {
         ),
       ),
       bottom: TabBar(
-        isScrollable: true, // Make the tabs scrollable
+        isScrollable: true,
         labelColor: Colors.blue,
         unselectedLabelColor: Colors.black,
         tabs: [
           for (int i = 0; i < 5; i++)
             Tab(
-              child: tabText(_getTabText(i)), // Use a function to get tab text
+              child: tabText(_getTabText(i)),
             ),
         ],
       ),
@@ -153,7 +152,6 @@ class ContactsScreenState extends State<ContactsScreen> {
   }
 
   String _getTabText(int index) {
-    // Customize tab text based on the index
     switch (index) {
       case 0:
         return TextConstants.contactOne;
