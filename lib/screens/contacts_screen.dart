@@ -43,28 +43,39 @@ class ContactsScreenState extends State<ContactsScreen> {
                         state.users.expand((list) => list).toList();
                     print(state.users);
 
+                    //   return TabBarView(
+                    //     children: [
+                    //       BlocProvider.value(
+                    //         value: BlocProvider.of<ContactsBloc>(context),
+                    //         child: Tab1(contacts: singleListContacts),
+                    //       ),
+                    //       BlocProvider.value(
+                    //         value: BlocProvider.of<ContactsBloc>(context),
+                    //         child: Tab1(contacts: singleListContacts),
+                    //       ),
+                    //       BlocProvider.value(
+                    //         value: BlocProvider.of<ContactsBloc>(context),
+                    //         child: Tab1(contacts: singleListContacts),
+                    //       ),
+                    //       BlocProvider.value(
+                    //         value: BlocProvider.of<ContactsBloc>(context),
+                    //         child: Tab1(contacts: singleListContacts),
+                    //       ),
+                    //       BlocProvider.value(
+                    //         value: BlocProvider.of<ContactsBloc>(context),
+                    //         child: Tab1(contacts: singleListContacts),
+                    //       ),
+                    //     ],
+                    //   );
+                    // }
+
                     return TabBarView(
                       children: [
-                        BlocProvider.value(
-                          value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: singleListContacts),
-                        ),
-                        BlocProvider.value(
-                          value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: singleListContacts),
-                        ),
-                        BlocProvider.value(
-                          value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: singleListContacts),
-                        ),
-                        BlocProvider.value(
-                          value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: singleListContacts),
-                        ),
-                        BlocProvider.value(
-                          value: BlocProvider.of<ContactsBloc>(context),
-                          child: Tab1(contacts: singleListContacts),
-                        ),
+                        for (int i = 0; i < 5; i++)
+                          BlocProvider.value(
+                            value: BlocProvider.of<ContactsBloc>(context),
+                            child: Tab1(contacts: singleListContacts),
+                          ),
                       ],
                     );
                   }
@@ -146,21 +157,10 @@ PreferredSizeWidget customAppBar() {
       labelColor: Colors.blue,
       unselectedLabelColor: Colors.black,
       tabs: [
-        Tab(
-          child: tabText(TextConstants.contactOne),
-        ),
-        Tab(
-          child: tabText(TextConstants.contactTwo),
-        ),
-        Tab(
-          child: tabText(TextConstants.contactThree),
-        ),
-        Tab(
-          child: tabText(TextConstants.contactThree),
-        ),
-        Tab(
-          child: tabText(TextConstants.contactThree),
-        ),
+        for (int i = 0; i < 5; i++)
+          Tab(
+            child: tabText(_getTabText(i)), // Use a function to get tab text
+          ),
       ],
     ),
   );
@@ -180,4 +180,22 @@ Widget tabText(String text) {
     text,
     style: const TextStyle(fontSize: 14),
   );
+}
+
+String _getTabText(int index) {
+  // Customize tab text based on the index
+  switch (index) {
+    case 0:
+      return TextConstants.contactOne;
+    case 1:
+      return TextConstants.contactTwo;
+    case 2:
+      return TextConstants.contactThree;
+    case 3:
+      return TextConstants.contactFour; // Customize this
+    case 4:
+      return TextConstants.contactFive; // Customize this
+    default:
+      return ""; // Default value
+  }
 }
